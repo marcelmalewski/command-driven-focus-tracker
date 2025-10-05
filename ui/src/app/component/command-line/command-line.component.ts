@@ -3,7 +3,7 @@ import {
     CUSTOM_ELEMENTS_SCHEMA,
     ElementRef,
     HostListener,
-    Input,
+    input,
     OnInit,
     ViewChild,
 } from '@angular/core';
@@ -24,6 +24,7 @@ import {
     CommandsValues,
     Pages,
 } from '../../spec/common-spec';
+import { HelpPanelComponent } from '../help-panel/help-panel.component';
 
 @Component({
     selector: 'app-command-line',
@@ -38,13 +39,13 @@ import {
         MatInput,
         ReactiveFormsModule,
         AsyncPipe,
+        HelpPanelComponent,
     ],
     templateUrl: './command-line.component.html',
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CommandLineComponent implements OnInit {
-    @Input({ required: true })
-    commandContext!: string;
+    commandContext = input.required<string>();
 
     isAutocompleteDisabled = true;
     commandInputControl = new FormControl('');

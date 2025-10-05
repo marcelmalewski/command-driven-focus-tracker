@@ -20,6 +20,7 @@ export const PageLinks = {
     TIMER_HOME: '/timer',
 } as const;
 
+// TODO use context
 export const Commands = {
     GO_TO_TIMER: 'go to timer',
     GO_TO_SETTINGS: 'go to settings',
