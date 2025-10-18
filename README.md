@@ -12,18 +12,30 @@ Both Pomodoro and Flowtime techniques offer unique advantages. Sometimes, one is
 
 ## Features
 ### Current features
-...
+* Login/Logout
+* Most of featers you can do with just commands
+* Set your timer as you wish
+* Start/Pause/Short break/Long break
+* Turn on auto break so after focus session you just click break and type of break is choses automatically
+* See your sessions finished and not finshed ones
 
 ### Planned features
-...
+* You can do all current featers with commands
+* Stopwatch
+* Statistics
 
 ## Screenshots
-...
+<img width="2533" height="1244" alt="image" src="https://github.com/user-attachments/assets/cd13fdfd-f388-4fce-b7e4-821359b5b3ad" />
+<img width="2512" height="1255" alt="image" src="https://github.com/user-attachments/assets/d94a632f-f075-496a-802c-318596de77fa" />
+<img width="2541" height="1263" alt="image" src="https://github.com/user-attachments/assets/c549d523-76a6-4e51-8600-1a57a2e28727" />
+
 
 ## Technologies
 - Java 21
-- Angular
+- Spring Boot 3
+- Gradle
 - PostgreSQL
+- Angular 18
 - Tailwind CSS
 
 ## Local Development
