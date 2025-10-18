@@ -14,7 +14,7 @@ Both Pomodoro and Flowtime techniques offer unique advantages. Sometimes, one is
 ### Current features
 * Login / Logout
 * Command-based control – most actions can be done using simple commands
-* Custom timers – for example set session/break lengths as you wish
+* Custom timers – for example, set your session or break lengths however you want
 * Session control – start, pause, take short or long breaks
 * Auto-break mode – automatically selects the correct break type after each focus session
 * Session overview – view completed and unfinished sessions
