@@ -12,21 +12,22 @@ Both Pomodoro and Flowtime techniques offer unique advantages. Sometimes, one is
 
 ## Features
 ### Current features
-* Login/Logout
-* Most of featers you can do with just commands
-* Set your timer as you wish
-* Start/Pause/Short break/Long break
-* Turn on auto break so after focus session you just click break and type of break is choses automatically
-* See your sessions finished and not finshed ones
+* Login / Logout
+* Command-based control – most actions can be done using simple commands
+* Custom timers – for example set session/break lengths as you wish
+* Session control – start, pause, take short or long breaks
+* Auto-break mode – automatically selects the correct break type after each focus session
+* Session overview – view completed and unfinished sessions
 
 ### Planned features
-* You can do all current featers with commands
-* Stopwatch
+* Full command support – perform all actions via commands
+* Stopwatch mode
 * Statistics
 
 ## Screenshots
 <img width="2533" height="1244" alt="image" src="https://github.com/user-attachments/assets/cd13fdfd-f388-4fce-b7e4-821359b5b3ad" />
 <img width="2512" height="1255" alt="image" src="https://github.com/user-attachments/assets/d94a632f-f075-496a-802c-318596de77fa" />
+<img width="2542" height="1248" alt="image" src="https://github.com/user-attachments/assets/f0444f64-c56f-4f46-bc08-d2f994674e0c" />
 <img width="2541" height="1263" alt="image" src="https://github.com/user-attachments/assets/c549d523-76a6-4e51-8600-1a57a2e28727" />
 
 
