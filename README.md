@@ -3,6 +3,7 @@
 ## Table of contents
 * [Idea](#idea)
 * [Features](#features)
+* [Screenshots](#screenshots)
 * [Technologies](#technologies)
 * [Local Development](#local-development)
 
@@ -10,6 +11,9 @@
 Both Pomodoro and Flowtime techniques offer unique advantages. Sometimes, one is necessary, and other times, the other is preferred. Flowtime allows for long, uninterrupted work sessions, but too much sitting isn't good. On the other hand, strict adherence to Pomodoro intervals may feel limiting. Combining these methods can yield significant benefits. Additionally, presenting this hybrid approach with maximum simplicity and providing useful statistics is essential.
 
 ## Features
+...
+
+## Screenshots
 ...
 
 ## Technologies
