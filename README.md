@@ -1,4 +1,4 @@
-# Focus time tracker
+# Command driven focus tracker
 
 ## Table of contents
 * [Idea](#idea)
