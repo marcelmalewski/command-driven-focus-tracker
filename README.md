@@ -17,12 +17,12 @@ And finally, being able to move around using just commands sounds like a lot of 
 * Login / Logout
 * Command-based control – most actions can be done using simple commands
   
-  Current commands: 
+  Current commands:
+* Session overview – view completed and unfinished sessions
 * Timer mode
     * Basic featuers – start / pause / short break / long break
     * Customization – set your session or break lengths however you want
     * Auto-break mode – there is option to enable to automatically select break type
-    * Session overview – view completed and unfinished sessions
 
 ### Planned features
 * Full command support – perform all actions via commands
