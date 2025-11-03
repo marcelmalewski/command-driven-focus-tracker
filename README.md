@@ -21,6 +21,7 @@ And finally, being able to move around using just commands sounds like a lot of 
 * Timer mode
   * Basic features – start, pause, short break, and long break
   * Customization – freely set your session and break durations
+  * Topics - Add topic to your session
   * Auto-break mode – automatically selects the appropriate break type when enabled
 
 ### Planned features
