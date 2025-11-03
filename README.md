@@ -15,11 +15,14 @@ And finally, being able to move around using just commands sounds like a lot of 
 ## Features
 ### Current features
 * Login / Logout
-* Command-based control – most actions can be done using simple commands
-* Custom timers – for example, set your session or break lengths however you want
-* Session control – start, pause, take short or long breaks
-* Auto-break mode – automatically selects the correct break type after each focus session
+* Command-based control – most actions can be performed using simple text commands  
+  **Available commands:** ...
 * Session overview – view completed and unfinished sessions
+* Timer mode
+  * Basic features – start, pause, short break, and long break
+  * Customization – freely set your session and break durations
+  * Topics - Add topic to your session
+  * Auto-break mode – automatically selects the appropriate break type when enabled
 
 ### Planned features
 * Full command support – perform all actions via commands
