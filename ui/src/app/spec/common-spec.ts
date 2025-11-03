@@ -38,16 +38,18 @@ export const Commands = {
     GO_TO_FOCUS_SESSIONS: 'go to sessions',
     LOGOUT: 'logout',
     RESET_FORM: 'reset form',
+    SET_AUTO_BREAK: 'set auto break',
 } as const;
 export const CommandsValues = Object.values(Commands);
 type CommandsKeys = keyof typeof Commands;
 export type Command = (typeof Commands)[CommandsKeys];
 
 export const CommandToAvailability: Record<Command, Page[]> = {
-    'go to home': [],
-    'go to sessions': [],
-    logout: [],
-    'reset form': [Pages.TIMER_HOME],
+    [Commands.GO_TO_TIMER]: [],
+    [Commands.GO_TO_FOCUS_SESSIONS]: [],
+    [Commands.LOGOUT]: [],
+    [Commands.RESET_FORM]: [Pages.TIMER_HOME],
+    [Commands.SET_AUTO_BREAK]: [Pages.TIMER_HOME],
 };
 
 export type UnknownMap = Record<string, unknown>;
