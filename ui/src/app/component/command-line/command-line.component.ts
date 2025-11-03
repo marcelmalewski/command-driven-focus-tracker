@@ -25,9 +25,10 @@ import { map, Observable, startWith, Subject } from 'rxjs';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import {
-    GeneralCommand,
-    GeneralCommands,
-    GeneralCommandsValues,
+    Command,
+    Commands,
+    CommandsValues,
+    CommandToAvailability,
     Page,
     Pages,
     UnknownMap,
@@ -64,7 +65,7 @@ export class CommandLineComponent implements OnInit, OnDestroy {
 
     isAutocompleteDisabled = true;
     commandInputControl = new FormControl('');
-    commands: GeneralCommand[] = GeneralCommandsValues;
+    availableCommands: Command[] = [];
     filteredCommands: Observable<string[]> | undefined;
     firstCommandFromFilteredCommands: string | undefined;
 
@@ -82,6 +83,7 @@ export class CommandLineComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.availableCommands = this.prepareAvailableCommands();
         this.filteredCommands = this.commandInputControl.valueChanges.pipe(
             startWith(''),
             map(value => this.filterCommands(value || ''))
@@ -92,14 +94,23 @@ export class CommandLineComponent implements OnInit, OnDestroy {
         });
     }
 
+    private prepareAvailableCommands() {
+        return CommandsValues.filter(commandValue => {
+            const commandAvailability = CommandToAvailability[commandValue];
+            return (
+                commandAvailability.length === 0 ||
+                commandAvailability.includes(this.currentViewName())
+            );
+        });
+    }
+
     private filterCommands(value: string): string[] {
-        // TODO filtorwanie na podstawie viewName
         if (value === '') {
             return [];
         }
 
         const filterValue = value.toLowerCase();
-        const filteredCommands = this.commands.filter(option =>
+        const filteredCommands = this.availableCommands.filter(option =>
             option.toLowerCase().includes(filterValue)
         );
         this.firstCommandFromFilteredCommands = filteredCommands[0];
@@ -116,22 +127,19 @@ export class CommandLineComponent implements OnInit, OnDestroy {
             return;
         }
 
-        if (this.currentViewName() === Pages.TIMER_HOME) {
-            this.onSubmitInHomeViewContext(commandValue);
-            this.commandInputControl.reset();
-            return;
-        }
-
-        if (commandValue === GeneralCommands.GO_TO_FOCUS_SESSIONS) {
-            void this.router.navigateByUrl(Pages.FOCUS_SESSIONS);
-        } else if (commandValue === GeneralCommands.GO_TO_TIMER) {
-            void this.router.navigateByUrl(Pages.TIMER_HOME);
-        } else if (commandValue === GeneralCommands.LOGOUT) {
-            this.logout();
-        } else {
-            this.notificationService.openErrorNotification(
-                UnknownCommandErrorMessage
-            );
+        switch (commandValue) {
+            case Commands.GO_TO_FOCUS_SESSIONS:
+                void this.router.navigateByUrl(Pages.FOCUS_SESSIONS);
+                break;
+            case Commands.GO_TO_TIMER:
+                void this.router.navigateByUrl(Pages.TIMER_HOME);
+                break;
+            case Commands.LOGOUT:
+                this.logout();
+                break;
+            default:
+                this.viewNameCommands(commandValue);
+                break;
         }
 
         this.commandInputControl.reset();
@@ -143,8 +151,18 @@ export class CommandLineComponent implements OnInit, OnDestroy {
         );
     }
 
+    private viewNameCommands(commandValue: string) {
+        if (this.currentViewName() === Pages.TIMER_HOME) {
+            this.onSubmitInHomeViewContext(commandValue);
+        } else {
+            this.notificationService.openErrorNotification(
+                UnknownCommandErrorMessage
+            );
+        }
+    }
+
     private onSubmitInHomeViewContext(commandValue: string) {
-        if (commandValue === GeneralCommands.RESET_FORM) {
+        if (commandValue === Commands.RESET_FORM) {
             (this.viewContext()!['timerForm'] as NgForm).resetForm();
         }
     }

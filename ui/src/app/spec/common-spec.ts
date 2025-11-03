@@ -33,15 +33,24 @@ export const StageToPage: Record<Stage, Page> = {
     LONG_BREAK: Pages.TIMER_BREAK,
 };
 
-export const GeneralCommands = {
+export const Commands = {
     GO_TO_TIMER: 'go to home',
     GO_TO_FOCUS_SESSIONS: 'go to sessions',
     LOGOUT: 'logout',
     RESET_FORM: 'reset form',
 } as const;
-export const GeneralCommandsValues = Object.values(GeneralCommands);
-type GeneralCommandsKeys = keyof typeof GeneralCommands;
-export type GeneralCommand = (typeof GeneralCommands)[GeneralCommandsKeys];
+export const CommandsValues = Object.values(Commands);
+type CommandsKeys = keyof typeof Commands;
+export type Command = (typeof Commands)[CommandsKeys];
+
+export const CommandToAvailability: Record<Command, Page[]> = {
+    'go to home': [],
+    'go to sessions': [],
+    logout: [],
+    'reset form': [Pages.TIMER_HOME],
+};
+
+export type UnknownMap = Record<string, unknown>;
 
 // Interfaces
 export interface AuthInterface {
@@ -53,9 +62,5 @@ export interface Paginated<T> {
     content: T[];
     totalElements: number;
     numberOfElements: number;
-    empty: boolean; // TODO obsłużmy to
-}
-
-export interface UnknownMap {
-    [key: string]: unknown;
+    empty: boolean;
 }
