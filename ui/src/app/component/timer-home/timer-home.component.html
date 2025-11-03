@@ -213,5 +213,9 @@
             </mat-form-field>
         </div>
     </form>
-    <bottom-menu [commandContext]="Pages.TIMER_HOME"></bottom-menu>
+    @if (viewContext) {
+        <bottom-menu
+            [currentViewName]="Pages.TIMER_HOME"
+            [viewContext]="viewContext"></bottom-menu>
+    }
 </div>

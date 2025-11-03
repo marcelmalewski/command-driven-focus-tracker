@@ -3,6 +3,7 @@ export const LoggedOutMessage = 'Logged out successfully.';
 export const UnknownServerErrorMessageRefreshPage =
     'Something went wrong, try refreshing page.';
 export const UnknownServerErrorMessage = 'Something went wrong.';
+export const UnknownCommandErrorMessage = 'Unknown command';
 
 export const AtLeastZeroMessage = 'Must be at least 0';
 export const AtLeastOneMessage = 'Must be at least 1';

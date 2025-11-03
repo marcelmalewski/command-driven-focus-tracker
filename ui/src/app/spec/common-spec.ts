@@ -1,8 +1,4 @@
-export interface AuthInterface {
-    loginOrEmail: string;
-    password: string;
-}
-
+// Const's
 export const Pages = {
     LOGIN: 'login',
     TIMER_HOME: 'timer',
@@ -10,7 +6,6 @@ export const Pages = {
     TIMER_BREAK: 'timer/break',
     TIMER_EDIT: 'timer/edit',
     FOCUS_SESSIONS: 'focus-sessions',
-    SETTINGS: 'settings',
     UNKNOWN_ERROR: 'unknown-error',
 } as const;
 type PagesKeys = keyof typeof Pages;
@@ -19,16 +14,6 @@ export type Page = (typeof Pages)[PagesKeys];
 export const PageLinks = {
     TIMER_HOME: '/timer',
 } as const;
-
-// TODO use context
-export const Commands = {
-    GO_TO_TIMER: 'go to timer',
-    GO_TO_SETTINGS: 'go to settings',
-    LOGOUT: 'logout',
-} as const;
-export const CommandsValues = Object.values(Commands);
-type CommandsKeys = keyof typeof Commands;
-export type Command = (typeof Commands)[CommandsKeys];
 
 export const Stages = {
     HOME: 'HOME',
@@ -48,9 +33,29 @@ export const StageToPage: Record<Stage, Page> = {
     LONG_BREAK: Pages.TIMER_BREAK,
 };
 
+export const GeneralCommands = {
+    GO_TO_TIMER: 'go to home',
+    GO_TO_FOCUS_SESSIONS: 'go to sessions',
+    LOGOUT: 'logout',
+    RESET_FORM: 'reset form',
+} as const;
+export const GeneralCommandsValues = Object.values(GeneralCommands);
+type GeneralCommandsKeys = keyof typeof GeneralCommands;
+export type GeneralCommand = (typeof GeneralCommands)[GeneralCommandsKeys];
+
+// Interfaces
+export interface AuthInterface {
+    loginOrEmail: string;
+    password: string;
+}
+
 export interface Paginated<T> {
     content: T[];
     totalElements: number;
     numberOfElements: number;
     empty: boolean; // TODO obsłużmy to
+}
+
+export interface UnknownMap {
+    [key: string]: unknown;
 }

@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     Component,
     CUSTOM_ELEMENTS_SCHEMA,
     OnDestroy,
@@ -35,8 +36,7 @@ import {
     TimerSettingsUpdated,
     NotImplementedYet,
 } from '../../spec/message-spec';
-import { Pages, Stages } from '../../spec/common-spec';
-import { FocusSessionService } from '../../service/focus-session.service';
+import { Pages, Stages, UnknownMap } from '../../spec/common-spec';
 
 @Component({
     selector: 'app-home',
@@ -60,9 +60,10 @@ import { FocusSessionService } from '../../service/focus-session.service';
     templateUrl: './timer-home.component.html',
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class TimerHomeComponent implements OnDestroy, OnInit {
+export class TimerHomeComponent implements OnDestroy, OnInit, AfterViewInit {
     mainTopicsBasicData: MainTopicBasicData[] | undefined;
     timerSettings: TimerSettings = TimerService.prepareDefaultTimerSettings();
+    viewContext: UnknownMap | undefined;
 
     readonly AtLeastOneMessage = AtLeastOneMessage;
     readonly LessThanOrEqual99Message = LessThanOrEqual99Message;
@@ -92,6 +93,12 @@ export class TimerHomeComponent implements OnDestroy, OnInit {
         this.mainTopicsBasicData = mainTopicsBasicData;
         this.timerSettings =
             TimerService.mapToTimerSettings(principalBasicData);
+    }
+
+    ngAfterViewInit(): void {
+        this.viewContext = {
+            timerForm: this.timerForm,
+        };
     }
 
     ngOnDestroy(): void {

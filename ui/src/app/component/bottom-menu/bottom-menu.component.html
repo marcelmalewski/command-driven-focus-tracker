@@ -15,4 +15,6 @@
         Sessions
     </button>
 </div>
-<app-command-line [commandContext]="commandContext"></app-command-line>
+<app-command-line
+    [currentViewName]="currentViewName()"
+    [viewContext]="viewContext()"></app-command-line>

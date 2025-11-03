@@ -125,7 +125,7 @@ export class TimerService {
                     this.principalDataService.localUpdateTimerRemainingFocus(
                         undefined
                     );
-                    this.router.navigateByUrl(Pages.TIMER_HOME);
+                    void this.router.navigateByUrl(Pages.TIMER_HOME);
                 },
                 error: (_: HttpResponse<any>) => {
                     this.notificationService.openErrorNotification(
