@@ -16,6 +16,7 @@ And finally, being able to move around using just commands sounds like a lot of 
 ### Current features
 * Login / Logout
 * Command-based control – most actions can be done using simple commands
+  
   Current commands: 
 * Timer mode
     * Basic featuers – start / pause / short break / long break
