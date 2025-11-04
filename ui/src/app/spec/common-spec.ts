@@ -38,7 +38,14 @@ export const Commands = {
     GO_TO_FOCUS_SESSIONS: 'go to sessions',
     LOGOUT: 'logout',
     RESET_FORM: 'reset form',
-    SET_AUTO_BREAK: 'set auto break',
+    SET_SECONDS: 'set seconds',
+    SET_MINUTES: 'set minutes',
+    SET_HOURS: 'set hours',
+    SET_SHORT_BREAK: 'set short break',
+    SET_LONG_BREAK: 'set long break',
+    ENABLE_AUTO_BREAK: 'enable auto break',
+    DISABLE_AUTO_BREAK: 'disable auto break',
+    SET_INTERVAL: 'set interval',
 } as const;
 export const CommandsValues = Object.values(Commands);
 type CommandsKeys = keyof typeof Commands;
@@ -49,8 +56,23 @@ export const CommandToAvailability: Record<Command, Page[]> = {
     [Commands.GO_TO_FOCUS_SESSIONS]: [],
     [Commands.LOGOUT]: [],
     [Commands.RESET_FORM]: [Pages.TIMER_HOME],
-    [Commands.SET_AUTO_BREAK]: [Pages.TIMER_HOME],
+    [Commands.SET_SECONDS]: [Pages.TIMER_HOME],
+    [Commands.SET_MINUTES]: [Pages.TIMER_HOME],
+    [Commands.SET_HOURS]: [Pages.TIMER_HOME],
+    [Commands.SET_SHORT_BREAK]: [Pages.TIMER_HOME],
+    [Commands.SET_LONG_BREAK]: [Pages.TIMER_HOME],
+    [Commands.ENABLE_AUTO_BREAK]: [Pages.TIMER_HOME],
+    [Commands.DISABLE_AUTO_BREAK]: [Pages.TIMER_HOME],
+    [Commands.SET_INTERVAL]: [Pages.TIMER_HOME],
 };
+export const CommandsWithParam: Command[] = [
+    Commands.SET_SECONDS,
+    Commands.SET_MINUTES,
+    Commands.SET_HOURS,
+    Commands.SET_SHORT_BREAK,
+    Commands.SET_LONG_BREAK,
+    Commands.SET_INTERVAL,
+];
 
 export type UnknownMap = Record<string, unknown>;
 
