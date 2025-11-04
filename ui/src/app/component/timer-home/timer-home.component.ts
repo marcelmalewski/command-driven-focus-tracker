@@ -127,7 +127,7 @@ export class TimerHomeComponent implements OnDestroy, OnInit, AfterViewInit {
                     this.principalDataService.localUpdateTimerStage(
                         Stages.FOCUS
                     );
-                    this.router.navigateByUrl(Pages.TIMER_FOCUS);
+                    void this.router.navigateByUrl(Pages.TIMER_FOCUS);
                 },
                 error: (_: HttpResponse<any>) => {
                     this.notificationService.openErrorNotification(
