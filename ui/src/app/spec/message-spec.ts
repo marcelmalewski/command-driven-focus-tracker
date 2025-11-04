@@ -4,6 +4,7 @@ export const UnknownServerErrorMessageRefreshPage =
     'Something went wrong, try refreshing page.';
 export const UnknownServerErrorMessage = 'Something went wrong.';
 export const UnknownCommandErrorMessage = 'Unknown command';
+export const EnableAutoBreakToSetInterval = 'Enable auto break to set interval';
 
 export const AtLeastZeroMessage = 'Must be at least 0';
 export const AtLeastOneMessage = 'Must be at least 1';
