@@ -8,14 +8,8 @@ import {
     OnInit,
     ViewChild,
 } from '@angular/core';
-import {
-    FormControl,
-    FormsModule,
-    NgForm,
-    ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AsyncPipe, NgIf } from '@angular/common';
-import { Router } from '@angular/router';
 import {
     MatAutocomplete,
     MatAutocompleteTrigger,
@@ -26,17 +20,14 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import {
     Command,
-    Commands,
     CommandsValues,
+    CommandsWithParam,
     CommandToAvailability,
     Page,
-    Pages,
     UnknownMap,
 } from '../../spec/common-spec';
 import { HelpPanelComponent } from '../help-panel/help-panel.component';
-import { NotificationService } from '../../service/notification.service';
-import { UnknownCommandErrorMessage } from '../../spec/message-spec';
-import { GeneralActionsService } from '../../service/general-actions.service';
+import { CommandLineService } from './command-line.service';
 
 @Component({
     selector: 'app-command-line',
@@ -55,6 +46,7 @@ import { GeneralActionsService } from '../../service/general-actions.service';
     ],
     templateUrl: './command-line.component.html',
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    providers: [CommandLineService],
 })
 export class CommandLineComponent implements OnInit, OnDestroy {
     @ViewChild('commandInput', { static: true })
@@ -71,11 +63,7 @@ export class CommandLineComponent implements OnInit, OnDestroy {
 
     private componentDestroyed$ = new Subject<void>();
 
-    constructor(
-        private router: Router,
-        private generalActionsService: GeneralActionsService,
-        private notificationService: NotificationService
-    ) {}
+    constructor(private commandLineService: CommandLineService) {}
 
     ngOnDestroy(): void {
         this.componentDestroyed$.next();
@@ -83,6 +71,9 @@ export class CommandLineComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.commandLineService.currentViewName = this.currentViewName();
+        this.commandLineService.viewContext = this.viewContext();
+
         this.availableCommands = this.prepareAvailableCommands();
         this.filteredCommands = this.commandInputControl.valueChanges.pipe(
             startWith(''),
@@ -110,60 +101,44 @@ export class CommandLineComponent implements OnInit, OnDestroy {
         }
 
         const filterValue = value.toLowerCase();
-        const filteredCommands = this.availableCommands.filter(option =>
-            option.toLowerCase().includes(filterValue)
-        );
-        this.firstCommandFromFilteredCommands = filteredCommands[0];
+        const filteredCommands = this.availableCommands.filter(command => {
+            const lowerCaseCommand = command.toLowerCase();
+            return (
+                lowerCaseCommand.includes(filterValue) ||
+                filterValue.startsWith(lowerCaseCommand + ' ')
+            );
+        });
 
+        this.firstCommandFromFilteredCommands = filteredCommands[0];
         return filteredCommands;
     }
 
     onSubmit() {
-        const commandValue: string | null = this
-            .firstCommandFromFilteredCommands
-            ? this.firstCommandFromFilteredCommands
-            : this.commandInputControl.value;
-        if (!commandValue) {
+        const commandValue: string | null = this.prepareCommandValue();
+        if (!commandValue || commandValue === '') {
             return;
         }
-
-        switch (commandValue) {
-            case Commands.GO_TO_FOCUS_SESSIONS:
-                void this.router.navigateByUrl(Pages.FOCUS_SESSIONS);
-                break;
-            case Commands.GO_TO_TIMER:
-                void this.router.navigateByUrl(Pages.TIMER_HOME);
-                break;
-            case Commands.LOGOUT:
-                this.logout();
-                break;
-            default:
-                this.viewNameCommands(commandValue);
-                break;
-        }
-
+        const normalizedCommandValue = commandValue.trim().toLowerCase();
+        this.commandLineService.handleCommandValue(
+            normalizedCommandValue,
+            this.componentDestroyed$
+        );
         this.commandInputControl.reset();
     }
 
-    private logout() {
-        this.generalActionsService.logoutWithHandleLogic(
-            this.componentDestroyed$
-        );
-    }
-
-    private viewNameCommands(commandValue: string) {
-        if (this.currentViewName() === Pages.TIMER_HOME) {
-            this.onSubmitInHomeViewContext(commandValue);
+    private prepareCommandValue() {
+        if (
+            this.firstCommandFromFilteredCommands &&
+            CommandsWithParam.includes(
+                this.firstCommandFromFilteredCommands as Command
+            )
+        ) {
+            return this.commandInputControl.value;
         } else {
-            this.notificationService.openErrorNotification(
-                UnknownCommandErrorMessage
+            return (
+                this.firstCommandFromFilteredCommands ||
+                this.commandInputControl.value
             );
-        }
-    }
-
-    private onSubmitInHomeViewContext(commandValue: string) {
-        if (commandValue === Commands.RESET_FORM) {
-            (this.viewContext()!['timerForm'] as NgForm).resetForm();
         }
     }
 
