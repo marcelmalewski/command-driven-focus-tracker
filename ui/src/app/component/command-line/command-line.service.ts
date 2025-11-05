@@ -11,6 +11,7 @@ import {
 import { GeneralActionsService } from '../../service/general-actions.service';
 import { NgForm } from '@angular/forms';
 import { MainTopicBasicData } from '../../spec/person-spec';
+import { TimerService } from '../../service/timer.service';
 
 @Injectable()
 export class CommandLineService {
@@ -20,7 +21,8 @@ export class CommandLineService {
     constructor(
         private router: Router,
         private generalActionsService: GeneralActionsService,
-        private notificationService: NotificationService
+        private notificationService: NotificationService,
+        private timerService: TimerService
     ) {}
 
     handleCommandValue(
@@ -35,21 +37,28 @@ export class CommandLineService {
                 void this.router.navigateByUrl(Pages.TIMER_HOME);
                 break;
             case Commands.LOGOUT:
-                this.logout(componentDestroyed$);
+                this.generalActionsService.logoutWithHandledLogicAfter(
+                    componentDestroyed$
+                );
                 break;
             default:
-                this.viewNameCommands(normalizedCommandValue);
+                this.viewNameCommands(
+                    normalizedCommandValue,
+                    componentDestroyed$
+                );
                 break;
         }
     }
 
-    private logout(componentDestroyed$: Subject<void>) {
-        this.generalActionsService.logoutWithHandleLogic(componentDestroyed$);
-    }
-
-    private viewNameCommands(normalizedCommandValue: string) {
+    private viewNameCommands(
+        normalizedCommandValue: string,
+        componentDestroyed$: Subject<void>
+    ) {
         if (this.currentViewName === Pages.TIMER_HOME) {
-            this.onSubmitInHomeViewContext(normalizedCommandValue);
+            this.onSubmitInHomeViewContext(
+                normalizedCommandValue,
+                componentDestroyed$
+            );
         } else {
             this.notificationService.openErrorNotification(
                 UnknownCommandErrorMessage
@@ -57,9 +66,19 @@ export class CommandLineService {
         }
     }
 
-    private onSubmitInHomeViewContext(normalizedCommandValue: string) {
+    private onSubmitInHomeViewContext(
+        normalizedCommandValue: string,
+        componentDestroyed$: Subject<void>
+    ) {
         if (normalizedCommandValue === Commands.RESET_FORM) {
             (this.viewContext!['timerForm'] as NgForm).resetForm();
+        } else if (normalizedCommandValue === Commands.SAVE) {
+            const form = this.viewContext!['timerForm'] as NgForm;
+            this.timerService.updatePrincipalTimerSettingsWithHandledLogicAfter(
+                form,
+                form.value,
+                componentDestroyed$
+            );
         } else if (normalizedCommandValue === Commands.ENABLE_AUTO_BREAK) {
             const form = this.viewContext!['timerForm'] as NgForm;
             form.controls['timerAutoBreakInput'].setValue(true);

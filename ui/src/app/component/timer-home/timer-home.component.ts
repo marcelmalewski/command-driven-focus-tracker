@@ -33,7 +33,6 @@ import {
     AtLeastZeroMessage,
     LessThanOrEqual59Message,
     UnknownServerErrorMessage,
-    TimerSettingsUpdated,
     NotImplementedYet,
 } from '../../spec/message-spec';
 import { Pages, Stages, UnknownMap } from '../../spec/common-spec';
@@ -139,27 +138,11 @@ export class TimerHomeComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     onSubmitSave() {
-        if (this.timerForm.invalid) {
-            return;
-        }
-
-        const body: TimerSettings = this.timerSettings;
-        this.timerService
-            .updatePrincipalTimerSettings(body)
-            .pipe(takeUntil(this.componentDestroyed$))
-            .subscribe({
-                next: () => {
-                    this.principalDataService.localUpdateTimerSettings(body);
-                    this.notificationService.openSuccessNotification(
-                        TimerSettingsUpdated
-                    );
-                },
-                error: (_: HttpResponse<any>) => {
-                    this.notificationService.openErrorNotification(
-                        UnknownServerErrorMessage
-                    );
-                },
-            });
+        this.timerService.updatePrincipalTimerSettingsWithHandledLogicAfter(
+            this.timerForm,
+            this.timerSettings,
+            this.componentDestroyed$
+        );
     }
 
     onChangeToStopwatch() {

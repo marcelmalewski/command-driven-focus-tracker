@@ -28,7 +28,7 @@ export class BottomMenuComponent implements OnDestroy {
     }
 
     submitLogout() {
-        this.generalActionsService.logoutWithHandleLogic(
+        this.generalActionsService.logoutWithHandledLogicAfter(
             this.componentDestroyed$
         );
     }

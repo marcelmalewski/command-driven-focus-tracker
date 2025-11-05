@@ -13,9 +13,13 @@ import {
     TimerCurrentTime,
     TimerManualBreakDto,
 } from '../spec/timer-spec';
-import { UnknownServerErrorMessage } from '../spec/message-spec';
+import {
+    TimerSettingsUpdated,
+    UnknownServerErrorMessage,
+} from '../spec/message-spec';
 import { PrincipalDataService } from './principal-data.service';
 import { NotificationService } from './notification.service';
+import { NgForm } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root',
@@ -36,13 +40,39 @@ export class TimerService {
             return;
         }
 
-        this.router.navigateByUrl(expectedCurrentPage);
+        void this.router.navigateByUrl(expectedCurrentPage);
     }
 
     updatePrincipalTimerSettings(body: TimerSettings): Observable<any> {
         return this.http.put('/api/v1/persons/principal/timer', body, {
             headers: this.headers,
         });
+    }
+
+    updatePrincipalTimerSettingsWithHandledLogicAfter(
+        timerForm: NgForm,
+        body: TimerSettings,
+        componentDestroyed$: Subject<void>
+    ) {
+        if (timerForm.invalid) {
+            return;
+        }
+
+        this.updatePrincipalTimerSettings(body)
+            .pipe(takeUntil(componentDestroyed$))
+            .subscribe({
+                next: () => {
+                    this.principalDataService.localUpdateTimerSettings(body);
+                    this.notificationService.openSuccessNotification(
+                        TimerSettingsUpdated
+                    );
+                },
+                error: (_: HttpResponse<any>) => {
+                    this.notificationService.openErrorNotification(
+                        UnknownServerErrorMessage
+                    );
+                },
+            });
     }
 
     updatePrincipalTimerStage(timerStage: Stage): Observable<any> {

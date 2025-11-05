@@ -135,10 +135,7 @@ export class CommandLineComponent implements OnInit, OnDestroy {
         ) {
             return this.commandInputControl.value;
         } else {
-            return (
-                this.firstCommandFromFilteredCommands ||
-                this.commandInputControl.value
-            );
+            return this.firstCommandFromFilteredCommands || '';
         }
     }
 

@@ -33,7 +33,7 @@ export class GeneralActionsService {
         return this.http.post('/api/logout', null);
     }
 
-    logoutWithHandleLogic(componentDestroyed$: Subject<void>) {
+    logoutWithHandledLogicAfter(componentDestroyed$: Subject<void>) {
         this.logout()
             .pipe(takeUntil(componentDestroyed$))
             .subscribe({
