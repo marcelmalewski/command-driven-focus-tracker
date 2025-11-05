@@ -46,6 +46,7 @@ export const Commands = {
     ENABLE_AUTO_BREAK: 'enable auto break',
     DISABLE_AUTO_BREAK: 'disable auto break',
     SET_INTERVAL: 'set interval',
+    SET_TOPIC: 'set topic',
 } as const;
 export const CommandsValues = Object.values(Commands);
 type CommandsKeys = keyof typeof Commands;
@@ -64,6 +65,7 @@ export const CommandToAvailability: Record<Command, Page[]> = {
     [Commands.ENABLE_AUTO_BREAK]: [Pages.TIMER_HOME],
     [Commands.DISABLE_AUTO_BREAK]: [Pages.TIMER_HOME],
     [Commands.SET_INTERVAL]: [Pages.TIMER_HOME],
+    [Commands.SET_TOPIC]: [Pages.TIMER_HOME],
 };
 export const CommandsWithParam: Command[] = [
     Commands.SET_SECONDS,
@@ -72,6 +74,7 @@ export const CommandsWithParam: Command[] = [
     Commands.SET_SHORT_BREAK,
     Commands.SET_LONG_BREAK,
     Commands.SET_INTERVAL,
+    Commands.SET_TOPIC,
 ];
 
 export type UnknownMap = Record<string, unknown>;

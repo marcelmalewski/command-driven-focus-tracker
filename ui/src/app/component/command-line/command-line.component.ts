@@ -118,7 +118,7 @@ export class CommandLineComponent implements OnInit, OnDestroy {
         if (!commandValue || commandValue === '') {
             return;
         }
-        const normalizedCommandValue = commandValue.trim().toLowerCase();
+        const normalizedCommandValue = commandValue.trim();
         this.commandLineService.handleCommandValue(
             normalizedCommandValue,
             this.componentDestroyed$

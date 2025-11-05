@@ -4,11 +4,13 @@ import { Subject } from 'rxjs';
 import { Commands, Page, Pages, UnknownMap } from '../../spec/common-spec';
 import { NotificationService } from '../../service/notification.service';
 import {
-    EnableAutoBreakToSetInterval,
+    EnableAutoBreakToSetIntervalMessage,
     UnknownCommandErrorMessage,
+    UnknownTopicErrorMessage,
 } from '../../spec/message-spec';
 import { GeneralActionsService } from '../../service/general-actions.service';
 import { NgForm } from '@angular/forms';
+import { MainTopicBasicData } from '../../spec/person-spec';
 
 @Injectable()
 export class CommandLineService {
@@ -55,7 +57,6 @@ export class CommandLineService {
         }
     }
 
-    // TODO iterowanie po liście? isApplicable and commandAction?
     private onSubmitInHomeViewContext(normalizedCommandValue: string) {
         if (normalizedCommandValue === Commands.RESET_FORM) {
             (this.viewContext!['timerForm'] as NgForm).resetForm();
@@ -100,16 +101,34 @@ export class CommandLineService {
         } else if (normalizedCommandValue.startsWith(Commands.SET_INTERVAL)) {
             const form = this.viewContext!['timerForm'] as NgForm;
             const timerIntervalControl = form.controls['timerIntervalInput'];
-
-            if (timerIntervalControl) {
-                timerIntervalControl.setValue(
-                    normalizedCommandValue.split(' ')[2]
-                );
-            } else {
+            if (!timerIntervalControl) {
                 this.notificationService.openErrorNotification(
-                    EnableAutoBreakToSetInterval
+                    EnableAutoBreakToSetIntervalMessage
                 );
+                return;
             }
+
+            timerIntervalControl.setValue(normalizedCommandValue.split(' ')[2]);
+        } else if (normalizedCommandValue.startsWith(Commands.SET_TOPIC)) {
+            const inputTopicName = normalizedCommandValue.split(' ')[2];
+            const topicToSelect = (
+                this.viewContext!['mainTopicsBasicData'] as MainTopicBasicData[]
+            ).find(
+                topic =>
+                    topic.name.toLowerCase() === inputTopicName.toLowerCase()
+            );
+
+            if (!topicToSelect) {
+                this.notificationService.openErrorNotification(
+                    UnknownTopicErrorMessage
+                );
+                return;
+            }
+
+            const form = this.viewContext!['timerForm'] as NgForm;
+            const timerSelectedTopicControl =
+                form.controls['timerSelectedTopicInput'];
+            timerSelectedTopicControl.setValue(topicToSelect.name);
         } else {
             this.notificationService.openErrorNotification(
                 UnknownCommandErrorMessage

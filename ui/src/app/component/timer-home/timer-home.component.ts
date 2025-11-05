@@ -98,6 +98,7 @@ export class TimerHomeComponent implements OnDestroy, OnInit, AfterViewInit {
     ngAfterViewInit(): void {
         this.viewContext = {
             timerForm: this.timerForm,
+            mainTopicsBasicData: this.mainTopicsBasicData,
         };
     }
 
