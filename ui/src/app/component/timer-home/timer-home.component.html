@@ -34,22 +34,22 @@
                 <input
                     matInput
                     type="number"
-                    name="timerSetHoursInput"
+                    name="timerSetHours"
                     required
                     [min]="0"
                     [max]="99"
-                    #timerSetHoursInput="ngModel"
+                    #timerSetHours="ngModel"
                     [(ngModel)]="timerSettings.timerSetHours" />
                 <span matTextSuffix class="text-black">hours</span>
 
                 <mat-error
                     *ngIf="
-                        timerSetHoursInput.hasError('required') ||
-                        timerSetHoursInput.hasError('min')
+                        timerSetHours.hasError('required') ||
+                        timerSetHours.hasError('min')
                     ">
                     {{ AtLeastZeroMessage }}
                 </mat-error>
-                <mat-error *ngIf="timerSetHoursInput.hasError('max')">
+                <mat-error *ngIf="timerSetHours.hasError('max')">
                     {{ LessThanOrEqual99Message }}
                 </mat-error>
             </mat-form-field>
@@ -58,22 +58,22 @@
                 <input
                     matInput
                     type="number"
-                    name="timerSetMinutesInput"
+                    name="timerSetMinutes"
                     required
                     [min]="0"
                     [max]="59"
-                    #timerSetMinutesInput="ngModel"
+                    #timerSetMinutes="ngModel"
                     [(ngModel)]="timerSettings.timerSetMinutes" />
                 <span matTextSuffix class="text-black">minutes</span>
 
                 <mat-error
                     *ngIf="
-                        timerSetMinutesInput.hasError('required') ||
-                        timerSetMinutesInput.hasError('min')
+                        timerSetMinutes.hasError('required') ||
+                        timerSetMinutes.hasError('min')
                     ">
                     {{ AtLeastZeroMessage }}
                 </mat-error>
-                <mat-error *ngIf="timerSetMinutesInput.hasError('max')">
+                <mat-error *ngIf="timerSetMinutes.hasError('max')">
                     {{ LessThanOrEqual59Message }}
                 </mat-error>
             </mat-form-field>
@@ -82,22 +82,22 @@
                 <input
                     matInput
                     type="number"
-                    name="timerSetSecondsInput"
+                    name="timerSetSeconds"
                     required
                     [min]="0"
                     [max]="59"
-                    #timerSetSecondsInput="ngModel"
+                    #timerSetSeconds="ngModel"
                     [(ngModel)]="timerSettings.timerSetSeconds" />
                 <span matTextSuffix class="text-black">seconds</span>
 
                 <mat-error
                     *ngIf="
-                        timerSetSecondsInput.hasError('required') ||
-                        timerSetSecondsInput.hasError('min')
+                        timerSetSeconds.hasError('required') ||
+                        timerSetSeconds.hasError('min')
                     ">
                     {{ AtLeastZeroMessage }}
                 </mat-error>
-                <mat-error *ngIf="timerSetSecondsInput.hasError('max')">
+                <mat-error *ngIf="timerSetSeconds.hasError('max')">
                     {{ LessThanOrEqual59Message }}
                 </mat-error>
             </mat-form-field>
@@ -108,9 +108,9 @@
             <mat-form-field>
                 <mat-label>Topic</mat-label>
                 <mat-select
-                    name="timerSelectedTopicInput"
+                    name="timerSelectedTopic"
                     required
-                    #timerSelectedTopicInput="ngModel"
+                    #timerSelectedTopic="ngModel"
                     [(ngModel)]="timerSettings.timerSelectedTopic">
                     @for (topic of mainTopicsBasicData; track topic) {
                         <mat-option [value]="topic.name"
@@ -119,7 +119,7 @@
                     }
                 </mat-select>
 
-                <mat-error *ngIf="timerSelectedTopicInput.hasError('required')">
+                <mat-error *ngIf="timerSelectedTopic.hasError('required')">
                     {{ AtLeastOneMessage }}
                 </mat-error>
             </mat-form-field>
@@ -129,22 +129,22 @@
                 <input
                     matInput
                     type="number"
-                    name="timerShortBreakInput"
+                    name="timerShortBreak"
                     required
                     [min]="1"
                     [max]="59"
-                    #timerShortBreakInput="ngModel"
+                    #timerShortBreak="ngModel"
                     [(ngModel)]="timerSettings.timerShortBreak" />
                 <span matTextSuffix class="text-black">minutes</span>
 
                 <mat-error
                     *ngIf="
-                        timerShortBreakInput.hasError('required') ||
-                        timerShortBreakInput.hasError('min')
+                        timerShortBreak.hasError('required') ||
+                        timerShortBreak.hasError('min')
                     ">
                     {{ AtLeastOneMessage }}
                 </mat-error>
-                <mat-error *ngIf="timerShortBreakInput.hasError('max')">
+                <mat-error *ngIf="timerShortBreak.hasError('max')">
                     {{ LessThanOrEqual59Message }}
                 </mat-error>
             </mat-form-field>
@@ -154,22 +154,22 @@
                 <input
                     matInput
                     type="number"
-                    name="timerLongBreakInput"
+                    name="timerLongBreak"
                     required
                     [min]="1"
                     [max]="59"
-                    #timerLongBreakInput="ngModel"
+                    #timerLongBreak="ngModel"
                     [(ngModel)]="timerSettings.timerLongBreak" />
                 <span matTextSuffix class="text-black">minutes</span>
 
                 <mat-error
                     *ngIf="
-                        timerLongBreakInput.hasError('required') ||
-                        timerLongBreakInput.hasError('min')
+                        timerLongBreak.hasError('required') ||
+                        timerLongBreak.hasError('min')
                     ">
                     {{ AtLeastOneMessage }}
                 </mat-error>
-                <mat-error *ngIf="timerLongBreakInput.hasError('max')">
+                <mat-error *ngIf="timerLongBreak.hasError('max')">
                     {{ LessThanOrEqual59Message }}
                 </mat-error>
             </mat-form-field>
@@ -178,7 +178,7 @@
                 <mat-slide-toggle
                     class="custom-slide-toggle"
                     labelPosition="after"
-                    name="timerAutoBreakInput"
+                    name="timerAutoBreak"
                     (change)="onAutoBreakToggle()"
                     [(ngModel)]="timerSettings.timerAutoBreak">
                 </mat-slide-toggle>
@@ -193,21 +193,21 @@
                 <input
                     matInput
                     type="number"
-                    name="timerIntervalInput"
+                    name="timerInterval"
                     required
                     [min]="1"
                     [max]="99"
-                    #timerIntervalInput="ngModel"
+                    #timerInterval="ngModel"
                     [(ngModel)]="timerSettings.timerInterval" />
 
                 <mat-error
                     *ngIf="
-                        timerIntervalInput.hasError('required') ||
-                        timerIntervalInput.hasError('min')
+                        timerInterval.hasError('required') ||
+                        timerInterval.hasError('min')
                     ">
                     {{ AtLeastOneMessage }}
                 </mat-error>
-                <mat-error *ngIf="timerIntervalInput.hasError('max')">
+                <mat-error *ngIf="timerInterval.hasError('max')">
                     {{ LessThanOrEqual99Message }}
                 </mat-error>
             </mat-form-field>

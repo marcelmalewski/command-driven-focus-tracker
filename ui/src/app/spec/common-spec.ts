@@ -58,7 +58,7 @@ export const CommandToAvailability: Record<Command, Page[]> = {
     [Commands.LOGOUT]: [],
     [Commands.SAVE]: [Pages.TIMER_HOME],
     [Commands.RESET_FORM]: [Pages.TIMER_HOME],
-    [Commands.SET_SECONDS]: [Pages.TIMER_FOCUS],
+    [Commands.SET_SECONDS]: [Pages.TIMER_HOME],
     [Commands.SET_MINUTES]: [Pages.TIMER_HOME],
     [Commands.SET_HOURS]: [Pages.TIMER_HOME],
     [Commands.SET_SHORT_BREAK]: [Pages.TIMER_HOME],

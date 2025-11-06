@@ -70,89 +70,132 @@ export class CommandLineService {
         normalizedCommandValue: string,
         componentDestroyed$: Subject<void>
     ) {
-        if (normalizedCommandValue === Commands.RESET_FORM) {
-            (this.viewContext!['timerForm'] as NgForm).resetForm();
-        } else if (normalizedCommandValue === Commands.SAVE) {
-            const form = this.viewContext!['timerForm'] as NgForm;
-            this.timerService.updatePrincipalTimerSettingsWithHandledLogicAfter(
-                form,
-                form.value,
-                componentDestroyed$
-            );
-        } else if (normalizedCommandValue === Commands.ENABLE_AUTO_BREAK) {
-            const form = this.viewContext!['timerForm'] as NgForm;
-            form.controls['timerAutoBreakInput'].setValue(true);
-        } else if (normalizedCommandValue === Commands.DISABLE_AUTO_BREAK) {
-            const form = this.viewContext!['timerForm'] as NgForm;
-            form.controls['timerAutoBreakInput'].setValue(false);
-        } else if (normalizedCommandValue.startsWith(Commands.SET_SECONDS)) {
-            this.setControlValue(
-                normalizedCommandValue,
-                'timerSetSecondsInput',
-                2
-            );
-        } else if (normalizedCommandValue.startsWith(Commands.SET_MINUTES)) {
-            this.setControlValue(
-                normalizedCommandValue,
-                'timerSetMinutesInput',
-                2
-            );
-        } else if (normalizedCommandValue.startsWith(Commands.SET_HOURS)) {
-            this.setControlValue(
-                normalizedCommandValue,
-                'timerSetHoursInput',
-                2
-            );
-        } else if (
-            normalizedCommandValue.startsWith(Commands.SET_SHORT_BREAK)
-        ) {
-            this.setControlValue(
-                normalizedCommandValue,
-                'timerShortBreakInput',
-                3
-            );
-        } else if (normalizedCommandValue.startsWith(Commands.SET_LONG_BREAK)) {
-            this.setControlValue(
-                normalizedCommandValue,
-                'timerLongBreakInput',
-                3
-            );
-        } else if (normalizedCommandValue.startsWith(Commands.SET_INTERVAL)) {
-            const form = this.viewContext!['timerForm'] as NgForm;
-            const timerIntervalControl = form.controls['timerIntervalInput'];
-            if (!timerIntervalControl) {
-                this.notificationService.openErrorNotification(
-                    EnableAutoBreakToSetIntervalMessage
+        const form = this.viewContext!['timerForm'] as NgForm;
+        switch (true) {
+            case normalizedCommandValue === Commands.RESET_FORM:
+                form.resetForm();
+                break;
+
+            case normalizedCommandValue === Commands.SAVE:
+                this.triggerSaveCommand(componentDestroyed$);
+                break;
+
+            case normalizedCommandValue === Commands.ENABLE_AUTO_BREAK:
+                form.controls['timerAutoBreak'].setValue(true);
+                break;
+
+            case normalizedCommandValue === Commands.DISABLE_AUTO_BREAK:
+                form.controls['timerAutoBreak'].setValue(false);
+                break;
+
+            case normalizedCommandValue.startsWith(Commands.SET_SECONDS):
+                this.setControlValue(
+                    normalizedCommandValue,
+                    'timerSetSeconds',
+                    2
                 );
-                return;
-            }
+                break;
 
-            timerIntervalControl.setValue(normalizedCommandValue.split(' ')[2]);
-        } else if (normalizedCommandValue.startsWith(Commands.SET_TOPIC)) {
-            const inputTopicName = normalizedCommandValue.split(' ')[2];
-            const topicToSelect = (
-                this.viewContext!['mainTopicsBasicData'] as MainTopicBasicData[]
-            ).find(
-                topic =>
-                    topic.name.toLowerCase() === inputTopicName.toLowerCase()
-            );
-
-            if (!topicToSelect) {
-                this.notificationService.openErrorNotification(
-                    UnknownTopicErrorMessage
+            case normalizedCommandValue.startsWith(Commands.SET_MINUTES):
+                this.setControlValue(
+                    normalizedCommandValue,
+                    'timerSetMinutes',
+                    2
                 );
-                return;
-            }
+                break;
 
-            const form = this.viewContext!['timerForm'] as NgForm;
-            const timerSelectedTopicControl =
-                form.controls['timerSelectedTopicInput'];
-            timerSelectedTopicControl.setValue(topicToSelect.name);
-        } else {
-            this.notificationService.openErrorNotification(
-                UnknownCommandErrorMessage
-            );
+            case normalizedCommandValue.startsWith(Commands.SET_HOURS):
+                this.setControlValue(
+                    normalizedCommandValue,
+                    'timerSetHours',
+                    2
+                );
+                break;
+
+            case normalizedCommandValue.startsWith(Commands.SET_SHORT_BREAK):
+                this.setControlValue(
+                    normalizedCommandValue,
+                    'timerShortBreak',
+                    3
+                );
+                break;
+
+            case normalizedCommandValue.startsWith(Commands.SET_LONG_BREAK):
+                this.setControlValue(
+                    normalizedCommandValue,
+                    'timerLongBreak',
+                    3
+                );
+                break;
+
+            case normalizedCommandValue.startsWith(Commands.SET_INTERVAL):
+                this.triggerSetIntervalCommand(normalizedCommandValue);
+                break;
+
+            case normalizedCommandValue.startsWith(Commands.SET_TOPIC):
+                this.triggerSetTopicCommand(normalizedCommandValue);
+                break;
+
+            default:
+                this.notificationService.openErrorNotification(
+                    UnknownCommandErrorMessage
+                );
+                break;
         }
+    }
+
+    private triggerSaveCommand(componentDestroyed$: Subject<void>) {
+        const form = this.viewContext!['timerForm'] as NgForm;
+        Object.values(form.controls).forEach(control => {
+            control.markAsTouched();
+            control.updateValueAndValidity();
+        });
+
+        if (form.invalid) {
+            this.notificationService.openErrorNotification(
+                'Please fix form errors before saving.'
+            );
+            return;
+        }
+
+        this.timerService.updatePrincipalTimerSettingsWithHandledLogicAfter(
+            form,
+            form.value,
+            componentDestroyed$
+        );
+    }
+
+    private triggerSetIntervalCommand(normalizedCommandValue: string) {
+        const form = this.viewContext!['timerForm'] as NgForm;
+        const timerIntervalControl = form.controls['timerInterval'];
+        if (!timerIntervalControl) {
+            this.notificationService.openErrorNotification(
+                EnableAutoBreakToSetIntervalMessage
+            );
+            return;
+        }
+
+        timerIntervalControl.setValue(normalizedCommandValue.split(' ')[2]);
+    }
+
+    private triggerSetTopicCommand(normalizedCommandValue: string) {
+        const inputTopicName = normalizedCommandValue.split(' ')[2];
+        const topicToSelect = (
+            this.viewContext!['mainTopicsBasicData'] as MainTopicBasicData[]
+        ).find(
+            topic => topic.name.toLowerCase() === inputTopicName.toLowerCase()
+        );
+
+        if (!topicToSelect) {
+            this.notificationService.openErrorNotification(
+                UnknownTopicErrorMessage
+            );
+            return;
+        }
+
+        const form = this.viewContext!['timerForm'] as NgForm;
+        const timerSelectedTopicControl = form.controls['timerSelectedTopic'];
+        timerSelectedTopicControl.setValue(topicToSelect.name);
     }
 
     private setControlValue(
