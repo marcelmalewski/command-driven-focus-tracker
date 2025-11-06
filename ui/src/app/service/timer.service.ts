@@ -50,14 +50,9 @@ export class TimerService {
     }
 
     updatePrincipalTimerSettingsWithHandledLogicAfter(
-        timerForm: NgForm,
         body: TimerSettings,
         componentDestroyed$: Subject<void>
     ) {
-        if (timerForm.invalid) {
-            return;
-        }
-
         this.updatePrincipalTimerSettings(body)
             .pipe(takeUntil(componentDestroyed$))
             .subscribe({
@@ -93,6 +88,34 @@ export class TimerService {
                 headers: this.headers,
             }
         );
+    }
+
+    principalMoveTimerToStageFocusWithHandleLogicAfter(
+        body: TimerSettings,
+        componentDestroyed$: Subject<void>
+    ) {
+        this.principalMoveTimerToStageFocus(body)
+            .pipe(takeUntil(componentDestroyed$))
+            .subscribe({
+                next: timerRemainingFocus => {
+                    this.principalDataService.localUpdateTimerSettings(body);
+                    this.principalDataService.localUpdateTimerRemainingFocus(
+                        timerRemainingFocus
+                    );
+                    this.principalDataService.localUpdateTimerRemainingInterval(
+                        body.timerInterval
+                    );
+                    this.principalDataService.localUpdateTimerStage(
+                        Stages.FOCUS
+                    );
+                    void this.router.navigateByUrl(Pages.TIMER_FOCUS);
+                },
+                error: (_: HttpResponse<any>) => {
+                    this.notificationService.openErrorNotification(
+                        UnknownServerErrorMessage
+                    );
+                },
+            });
     }
 
     principalMoveTimerToStageFocusAgain(

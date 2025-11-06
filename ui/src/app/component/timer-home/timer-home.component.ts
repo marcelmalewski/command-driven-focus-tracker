@@ -111,35 +111,18 @@ export class TimerHomeComponent implements OnDestroy, OnInit, AfterViewInit {
             return;
         }
 
-        const body: TimerSettings = this.timerSettings;
-        this.timerService
-            .principalMoveTimerToStageFocus(body)
-            .pipe(takeUntil(this.componentDestroyed$))
-            .subscribe({
-                next: timerRemainingFocus => {
-                    this.principalDataService.localUpdateTimerSettings(body);
-                    this.principalDataService.localUpdateTimerRemainingFocus(
-                        timerRemainingFocus
-                    );
-                    this.principalDataService.localUpdateTimerRemainingInterval(
-                        body.timerInterval
-                    );
-                    this.principalDataService.localUpdateTimerStage(
-                        Stages.FOCUS
-                    );
-                    void this.router.navigateByUrl(Pages.TIMER_FOCUS);
-                },
-                error: (_: HttpResponse<any>) => {
-                    this.notificationService.openErrorNotification(
-                        UnknownServerErrorMessage
-                    );
-                },
-            });
+        this.timerService.principalMoveTimerToStageFocusWithHandleLogicAfter(
+            this.timerSettings,
+            this.componentDestroyed$
+        );
     }
 
     onSubmitSave() {
+        if (this.timerForm.invalid) {
+            return;
+        }
+
         this.timerService.updatePrincipalTimerSettingsWithHandledLogicAfter(
-            this.timerForm,
             this.timerSettings,
             this.componentDestroyed$
         );

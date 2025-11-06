@@ -80,6 +80,10 @@ export class CommandLineService {
                 this.triggerSaveCommand(componentDestroyed$);
                 break;
 
+            case normalizedCommandValue === Commands.START:
+                this.triggerStartCommand(componentDestroyed$);
+                break;
+
             case normalizedCommandValue === Commands.ENABLE_AUTO_BREAK:
                 form.controls['timerAutoBreak'].setValue(true);
                 break;
@@ -159,7 +163,26 @@ export class CommandLineService {
         }
 
         this.timerService.updatePrincipalTimerSettingsWithHandledLogicAfter(
-            form,
+            form.value,
+            componentDestroyed$
+        );
+    }
+
+    private triggerStartCommand(componentDestroyed$: Subject<void>) {
+        const form = this.viewContext!['timerForm'] as NgForm;
+        Object.values(form.controls).forEach(control => {
+            control.markAsTouched();
+            control.updateValueAndValidity();
+        });
+
+        if (form.invalid) {
+            this.notificationService.openErrorNotification(
+                'Please fix form errors before start.'
+            );
+            return;
+        }
+
+        this.timerService.principalMoveTimerToStageFocusWithHandleLogicAfter(
             form.value,
             componentDestroyed$
         );
