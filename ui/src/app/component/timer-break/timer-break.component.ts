@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommandLineComponent } from '../command-line/command-line.component';
 import { BottomMenuComponent } from '../bottom-menu/bottom-menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -17,7 +17,13 @@ import { MatSlideToggle } from '@angular/material/slide-toggle';
 import { PrincipalDataService } from '../../service/principal-data.service';
 import { TimerFieldPipe } from '../../pipes/timer-field.pipe';
 import { PrincipalBasicData, TimerSettings } from '../../spec/person-spec';
-import { Pages, Stages } from '../../spec/common-spec';
+import {
+    Command,
+    Commands,
+    Pages,
+    Stages,
+    UnknownMap,
+} from '../../spec/common-spec';
 import { TimerCurrentBreakTime } from '../../spec/timer-spec';
 import { TimerService } from '../../service/timer.service';
 import { Subject, takeUntil } from 'rxjs';
@@ -53,17 +59,37 @@ export class TimerBreakComponent implements OnInit, OnDestroy {
     principalBasicData!: PrincipalBasicData;
     timerCurrentTime!: TimerCurrentBreakTime;
     countDownId: any | undefined;
+    viewContext: UnknownMap | undefined;
 
     readonly Pages = Pages;
 
     private componentDestroyed$ = new Subject<void>();
+
+    triggerCommandSignal = signal<Command | null>(null);
 
     constructor(
         private router: Router,
         private principalDataService: PrincipalDataService,
         private timerService: TimerService,
         private notificationService: NotificationService
-    ) {}
+    ) {
+        effect(() => {
+            if (this.triggerCommandSignal()) {
+                this.handleTriggeredCommand(this.triggerCommandSignal()!);
+            }
+        });
+    }
+
+    private handleTriggeredCommand(triggeredCommand: Command) {
+        switch (true) {
+            case triggeredCommand === Commands.AGAIN:
+                this.onAgain();
+                break;
+            case triggeredCommand === Commands.HOME:
+                this.onBackToHome();
+                break;
+        }
+    }
 
     ngOnInit(): void {
         this.principalBasicData =
@@ -85,6 +111,10 @@ export class TimerBreakComponent implements OnInit, OnDestroy {
         this.countDownId = setInterval(() => {
             this.countDownLogic();
         }, 1000);
+
+        this.viewContext = {
+            triggerCommandSignal: this.triggerCommandSignal,
+        };
     }
 
     private countDownLogic() {

@@ -53,13 +53,14 @@ export const Commands = {
     HOME: 'home',
     SHORT_BREAK: 'short break',
     LONG_BREAK: 'long break',
+    AGAIN: 'again',
 } as const;
 export const CommandsValues = Object.values(Commands);
 type CommandsKeys = keyof typeof Commands;
 export type Command = (typeof Commands)[CommandsKeys];
 
 export const CommandToAvailability: Record<Command, Page[]> = {
-    [Commands.GO_TO_TIMER]: [Pages.TIMER_HOME],
+    [Commands.GO_TO_TIMER]: [Pages.FOCUS_SESSIONS],
     [Commands.GO_TO_FOCUS_SESSIONS]: [Pages.TIMER_HOME],
     [Commands.LOGOUT]: [],
     [Commands.SAVE]: [Pages.TIMER_HOME],
@@ -76,9 +77,10 @@ export const CommandToAvailability: Record<Command, Page[]> = {
     [Commands.SET_TOPIC]: [Pages.TIMER_HOME],
     [Commands.PAUSE]: [Pages.TIMER_FOCUS],
     [Commands.RESUME]: [Pages.TIMER_FOCUS],
-    [Commands.HOME]: [Pages.TIMER_FOCUS],
+    [Commands.HOME]: [Pages.TIMER_FOCUS, Pages.TIMER_BREAK],
     [Commands.LONG_BREAK]: [Pages.TIMER_FOCUS],
     [Commands.SHORT_BREAK]: [Pages.TIMER_FOCUS],
+    [Commands.AGAIN]: [Pages.TIMER_BREAK],
 };
 export const CommandsWithParam: Command[] = [
     Commands.SET_SECONDS,

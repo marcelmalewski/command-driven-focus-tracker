@@ -61,10 +61,30 @@ export class CommandLineService {
             );
         } else if (this.currentViewName === Pages.TIMER_FOCUS) {
             this.onSubmitInFocusViewContext(normalizedCommandValue);
+        } else if (this.currentViewName === Pages.TIMER_BREAK) {
+            this.onSubmitInBreakViewContext(normalizedCommandValue);
         } else {
             this.notificationService.openErrorNotification(
                 UnknownCommandErrorMessage
             );
+        }
+    }
+
+    private onSubmitInBreakViewContext(normalizedCommandValue: string) {
+        switch (true) {
+            case normalizedCommandValue === Commands.AGAIN:
+            case normalizedCommandValue === Commands.HOME:
+                const triggerCommandSignal = this.viewContext![
+                    'triggerCommandSignal'
+                ] as WritableSignal<any>;
+                triggerCommandSignal.set(normalizedCommandValue);
+                break;
+
+            default:
+                this.notificationService.openErrorNotification(
+                    UnknownCommandErrorMessage
+                );
+                break;
         }
     }
 
