@@ -15,8 +15,7 @@ And finally, being able to move around using just commands sounds like a lot of 
 ## Features
 ### Current features
 * Login / Logout
-* Command-based control – most actions can be performed using simple text commands  
-  **Available commands:** ...
+* Command-based control – all actions can be performed using simple text commands 
 * Session overview – view completed and unfinished sessions
 * Timer mode
   * Basic features – start, pause, short break, and long break
@@ -25,16 +24,14 @@ And finally, being able to move around using just commands sounds like a lot of 
   * Auto-break mode – automatically selects the appropriate break type when enabled
 
 ### Planned features
-* Full command support – perform all actions via commands
 * Stopwatch mode
 * Statistics
 
 ## Screenshots
-<img width="2533" height="1244" alt="image" src="https://github.com/user-attachments/assets/cd13fdfd-f388-4fce-b7e4-821359b5b3ad" />
-<img width="2512" height="1255" alt="image" src="https://github.com/user-attachments/assets/d94a632f-f075-496a-802c-318596de77fa" />
-<img width="2542" height="1248" alt="image" src="https://github.com/user-attachments/assets/f0444f64-c56f-4f46-bc08-d2f994674e0c" />
-<img width="2541" height="1263" alt="image" src="https://github.com/user-attachments/assets/c549d523-76a6-4e51-8600-1a57a2e28727" />
-
+<img width="2020" height="1281" alt="image" src="https://github.com/user-attachments/assets/4289ca96-5a97-49d1-90b7-f9a0d0cd13f3" />
+<img width="2023" height="1290" alt="image" src="https://github.com/user-attachments/assets/9ba434ae-ac9c-4296-9578-4850acd7c2e7" />
+<img width="2017" height="1285" alt="image" src="https://github.com/user-attachments/assets/c04f6ae5-62ce-4f97-998a-3a20d7d6256f" />
+<img width="2008" height="1286" alt="image" src="https://github.com/user-attachments/assets/6a45231a-f782-434b-bfe6-051469210646" />
 
 ## Technologies
 - Java 21
