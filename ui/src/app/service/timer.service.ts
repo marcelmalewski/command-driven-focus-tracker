@@ -19,7 +19,6 @@ import {
 } from '../spec/message-spec';
 import { PrincipalDataService } from './principal-data.service';
 import { NotificationService } from './notification.service';
-import { NgForm } from '@angular/forms';
 
 @Injectable({
     providedIn: 'root',
