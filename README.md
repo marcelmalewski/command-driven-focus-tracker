@@ -28,7 +28,7 @@ And finally, being able to move around using just commands sounds like a lot of 
 * Statistics
 
 ## Screenshots
-<img width="2533" height="1244" alt="image" src="https://github.com/user-attachments/assets/cd13fdfd-f388-4fce-b7e4-821359b5b3ad" />
+<img width="2020" height="1281" alt="image" src="https://github.com/user-attachments/assets/4289ca96-5a97-49d1-90b7-f9a0d0cd13f3" />
 <img width="2512" height="1255" alt="image" src="https://github.com/user-attachments/assets/d94a632f-f075-496a-802c-318596de77fa" />
 <img width="2542" height="1248" alt="image" src="https://github.com/user-attachments/assets/f0444f64-c56f-4f46-bc08-d2f994674e0c" />
 <img width="2541" height="1263" alt="image" src="https://github.com/user-attachments/assets/c549d523-76a6-4e51-8600-1a57a2e28727" />
