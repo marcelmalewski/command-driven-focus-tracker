@@ -15,8 +15,7 @@ And finally, being able to move around using just commands sounds like a lot of 
 ## Features
 ### Current features
 * Login / Logout
-* Command-based control – most actions can be performed using simple text commands  
-  **Available commands:** ...
+* Command-based control – all actions can be performed using simple text commands 
 * Session overview – view completed and unfinished sessions
 * Timer mode
   * Basic features – start, pause, short break, and long break
@@ -25,7 +24,6 @@ And finally, being able to move around using just commands sounds like a lot of 
   * Auto-break mode – automatically selects the appropriate break type when enabled
 
 ### Planned features
-* Full command support – perform all actions via commands
 * Stopwatch mode
 * Statistics
 
