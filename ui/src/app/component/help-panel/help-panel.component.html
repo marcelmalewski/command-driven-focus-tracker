@@ -1,4 +1,19 @@
 <div
-    class="absolute right-0 top-0 m-8 flex items-center justify-center border border-form-border bg-form-bg p-8">
-    <p>shift + c -> go to command line</p>
+    class="absolute right-0 top-0 m-8 flex w-96 flex-col items-center rounded-xl border border-form-border bg-form-bg p-8 text-base shadow-lg">
+    <h2 class="mb-4 text-center text-2xl font-bold text-gray-100">
+        Command Reference
+    </h2>
+
+    <p class="mb-6 text-center text-sm text-gray-400">
+        <kbd class="rounded bg-gray-700 px-1 py-0.5 text-white">Shift</kbd> +
+        <kbd class="rounded bg-gray-700 px-1 py-0.5 text-white">C</kbd>
+        → Open Command Line
+    </p>
+    <ul class="ml-4 w-full list-disc space-y-1">
+        @for (command of commandsValues; track command) {
+            <li class="text-sm leading-tight">
+                {{ prepareCommandLabel(command) }}
+            </li>
+        }
+    </ul>
 </div>
