@@ -8,9 +8,7 @@ import {
 } from '@angular/core';
 import { CommandLineComponent } from '../command-line/command-line.component';
 import { MatFormField, MatInput } from '@angular/material/input';
-import { HttpResponse } from '@angular/common/http';
-import { Subject, takeUntil } from 'rxjs';
-import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { PrincipalDataService } from '../../service/principal-data.service';
 import { NotificationService } from '../../service/notification.service';
 import {
@@ -32,10 +30,9 @@ import {
     LessThanOrEqual99Message,
     AtLeastZeroMessage,
     LessThanOrEqual59Message,
-    UnknownServerErrorMessage,
     NotImplementedYet,
 } from '../../spec/message-spec';
-import { Pages, Stages, UnknownMap } from '../../spec/common-spec';
+import { Pages, UnknownMap } from '../../spec/common-spec';
 
 @Component({
     selector: 'app-home',
@@ -74,7 +71,6 @@ export class TimerHomeComponent implements OnDestroy, OnInit, AfterViewInit {
     private componentDestroyed$ = new Subject<void>();
 
     constructor(
-        private router: Router,
         private timerService: TimerService,
         private principalDataService: PrincipalDataService,
         private notificationService: NotificationService

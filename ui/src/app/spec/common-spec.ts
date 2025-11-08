@@ -48,14 +48,19 @@ export const Commands = {
     DISABLE_AUTO_BREAK: 'disable auto break',
     SET_INTERVAL: 'set interval',
     SET_TOPIC: 'set topic',
+    PAUSE: 'pause',
+    RESUME: 'resume',
+    HOME: 'home',
+    SHORT_BREAK: 'short break',
+    LONG_BREAK: 'long break',
 } as const;
 export const CommandsValues = Object.values(Commands);
 type CommandsKeys = keyof typeof Commands;
 export type Command = (typeof Commands)[CommandsKeys];
 
 export const CommandToAvailability: Record<Command, Page[]> = {
-    [Commands.GO_TO_TIMER]: [],
-    [Commands.GO_TO_FOCUS_SESSIONS]: [],
+    [Commands.GO_TO_TIMER]: [Pages.TIMER_HOME],
+    [Commands.GO_TO_FOCUS_SESSIONS]: [Pages.TIMER_HOME],
     [Commands.LOGOUT]: [],
     [Commands.SAVE]: [Pages.TIMER_HOME],
     [Commands.START]: [Pages.TIMER_HOME],
@@ -69,6 +74,11 @@ export const CommandToAvailability: Record<Command, Page[]> = {
     [Commands.DISABLE_AUTO_BREAK]: [Pages.TIMER_HOME],
     [Commands.SET_INTERVAL]: [Pages.TIMER_HOME],
     [Commands.SET_TOPIC]: [Pages.TIMER_HOME],
+    [Commands.PAUSE]: [Pages.TIMER_FOCUS],
+    [Commands.RESUME]: [Pages.TIMER_FOCUS],
+    [Commands.HOME]: [Pages.TIMER_FOCUS],
+    [Commands.LONG_BREAK]: [Pages.TIMER_FOCUS],
+    [Commands.SHORT_BREAK]: [Pages.TIMER_FOCUS],
 };
 export const CommandsWithParam: Command[] = [
     Commands.SET_SECONDS,

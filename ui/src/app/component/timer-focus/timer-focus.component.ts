@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommandLineComponent } from '../command-line/command-line.component';
 import { BottomMenuComponent } from '../bottom-menu/bottom-menu.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -21,7 +21,13 @@ import { MatCard, MatCardContent } from '@angular/material/card';
 import { TimerFieldPipe } from '../../pipes/timer-field.pipe';
 import { Subject, takeUntil } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
-import { Pages, Stages } from '../../spec/common-spec';
+import {
+    Command,
+    Commands,
+    Pages,
+    Stages,
+    UnknownMap,
+} from '../../spec/common-spec';
 import { PrincipalBasicData } from '../../spec/person-spec';
 import {
     SavedNewSession,
@@ -59,18 +65,47 @@ export class TimerFocusComponent implements OnInit, OnDestroy {
     timerCurrentTime!: TimerCurrentTime;
     countDownId: any | undefined;
     nextBreak: string | undefined;
+    viewContext: UnknownMap | undefined;
 
     readonly Pages = Pages;
     readonly Stages = Stages;
 
     private componentDestroyed$ = new Subject<void>();
 
+    triggerCommandSignal = signal<Command | null>(null);
+
     constructor(
         private router: Router,
         private timerService: TimerService,
         private principalDataService: PrincipalDataService,
         private notificationService: NotificationService
-    ) {}
+    ) {
+        effect(() => {
+            if (this.triggerCommandSignal()) {
+                this.handleTriggeredCommand(this.triggerCommandSignal()!);
+            }
+        });
+    }
+
+    private handleTriggeredCommand(triggeredCommand: Command) {
+        switch (true) {
+            case triggeredCommand === Commands.PAUSE:
+                this.onPause();
+                break;
+            case triggeredCommand === Commands.RESUME:
+                this.onResume();
+                break;
+            case triggeredCommand === Commands.HOME:
+                this.onBackToHome();
+                break;
+            case triggeredCommand === Commands.SHORT_BREAK:
+                this.onShortBreak();
+                break;
+            case triggeredCommand === Commands.LONG_BREAK:
+                this.onLongBreak();
+                break;
+        }
+    }
 
     ngOnInit(): void {
         this.principalBasicData =
@@ -98,6 +133,10 @@ export class TimerFocusComponent implements OnInit, OnDestroy {
                 this.countDownLogic();
             }, 1000);
         }
+
+        this.viewContext = {
+            triggerCommandSignal: this.triggerCommandSignal,
+        };
     }
 
     private prepareNextBreakName(): string {
@@ -234,7 +273,7 @@ export class TimerFocusComponent implements OnInit, OnDestroy {
                     this.notificationService.openSuccessNotification(
                         SavedNewSession
                     );
-                    this.router.navigateByUrl(Pages.TIMER_BREAK);
+                    void this.router.navigateByUrl(Pages.TIMER_BREAK);
                 },
                 error: (_: HttpResponse<any>) => {
                     this.notificationService.openErrorNotification(
@@ -270,7 +309,7 @@ export class TimerFocusComponent implements OnInit, OnDestroy {
                     this.notificationService.openSuccessNotification(
                         SavedNewSession
                     );
-                    this.router.navigateByUrl(Pages.TIMER_BREAK);
+                    void this.router.navigateByUrl(Pages.TIMER_BREAK);
                 },
                 error: (_: HttpResponse<any>) => {
                     this.notificationService.openErrorNotification(
@@ -306,7 +345,7 @@ export class TimerFocusComponent implements OnInit, OnDestroy {
                     this.notificationService.openSuccessNotification(
                         SavedNewSession
                     );
-                    this.router.navigateByUrl(Pages.TIMER_BREAK);
+                    void this.router.navigateByUrl(Pages.TIMER_BREAK);
                 },
                 error: (_: HttpResponse<any>) => {
                     this.notificationService.openErrorNotification(

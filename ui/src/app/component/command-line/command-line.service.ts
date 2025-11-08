@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, WritableSignal } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Commands, Page, Pages, UnknownMap } from '../../spec/common-spec';
@@ -59,10 +59,33 @@ export class CommandLineService {
                 normalizedCommandValue,
                 componentDestroyed$
             );
+        } else if (this.currentViewName === Pages.TIMER_FOCUS) {
+            this.onSubmitInFocusViewContext(normalizedCommandValue);
         } else {
             this.notificationService.openErrorNotification(
                 UnknownCommandErrorMessage
             );
+        }
+    }
+
+    private onSubmitInFocusViewContext(normalizedCommandValue: string) {
+        switch (true) {
+            case normalizedCommandValue === Commands.PAUSE:
+            case normalizedCommandValue === Commands.RESUME:
+            case normalizedCommandValue === Commands.HOME:
+            case normalizedCommandValue === Commands.SHORT_BREAK:
+            case normalizedCommandValue === Commands.LONG_BREAK:
+                const triggerCommandSignal = this.viewContext![
+                    'triggerCommandSignal'
+                ] as WritableSignal<any>;
+                triggerCommandSignal.set(normalizedCommandValue);
+                break;
+
+            default:
+                this.notificationService.openErrorNotification(
+                    UnknownCommandErrorMessage
+                );
+                break;
         }
     }
 
