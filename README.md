@@ -30,10 +30,8 @@ And finally, being able to move around using just commands sounds like a lot of 
 ## Screenshots
 <img width="2020" height="1281" alt="image" src="https://github.com/user-attachments/assets/4289ca96-5a97-49d1-90b7-f9a0d0cd13f3" />
 <img width="2023" height="1290" alt="image" src="https://github.com/user-attachments/assets/9ba434ae-ac9c-4296-9578-4850acd7c2e7" />
-
-<img width="2542" height="1248" alt="image" src="https://github.com/user-attachments/assets/f0444f64-c56f-4f46-bc08-d2f994674e0c" />
-<img width="2541" height="1263" alt="image" src="https://github.com/user-attachments/assets/c549d523-76a6-4e51-8600-1a57a2e28727" />
-
+<img width="2017" height="1285" alt="image" src="https://github.com/user-attachments/assets/c04f6ae5-62ce-4f97-998a-3a20d7d6256f" />
+<img width="2008" height="1286" alt="image" src="https://github.com/user-attachments/assets/6a45231a-f782-434b-bfe6-051469210646" />
 
 ## Technologies
 - Java 21
