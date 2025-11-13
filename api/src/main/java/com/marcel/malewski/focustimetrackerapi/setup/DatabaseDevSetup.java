@@ -12,12 +12,13 @@ import org.springframework.stereotype.Component;
 @Profile("dev")
 @Component
 public class DatabaseDevSetup implements CommandLineRunner {
+
     private final PersonService personService;
     private final MainTopicService mainTopicService;
     private final BCryptPasswordEncoder passwordEncoder;
 
     public DatabaseDevSetup(PersonService personService, MainTopicService mainTopicService,
-                            BCryptPasswordEncoder passwordEncoder) {
+        BCryptPasswordEncoder passwordEncoder) {
         this.personService = personService;
         this.mainTopicService = mainTopicService;
         this.passwordEncoder = passwordEncoder;
